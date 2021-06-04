@@ -1,10 +1,20 @@
 import Navbar from "./components/Navbar"
 import TodoForm from "./components/TodoForm"
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import TodoList from "./components/TodoList"
 
 const App = () => {
     const [todos, setTodos] = useState([])
+
+    useEffect(() => {
+        const saved = JSON.parse(localStorage.getItem('todos') || '[]')
+
+        setTodos(saved)
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos))
+    },[todos])
 
     const addTodo = (title) => {
         const newTodo = {
